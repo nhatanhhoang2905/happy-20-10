@@ -144,12 +144,13 @@
 
     /* Enchanted Rose Inside Glass Dome Styles */
     .glass-dome {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 200, 220, 0.2) 100%);
-      box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.6),
-        inset -10px 0 20px rgba(255, 105, 180, 0.2),
-        0 0 40px rgba(255, 77, 109, 0.4);
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      border-radius: 140px 140px 20px 20px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.04) 45%, rgba(255, 182, 193, 0.12) 100%);
+      box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.5),
+        inset -8px 0 20px rgba(255, 105, 180, 0.2),
+        0 0 35px rgba(255, 77, 109, 0.35);
+      border: 2px solid rgba(255, 255, 255, 0.65);
+      border-bottom: none;
+      border-radius: 140px 140px 0 0;
       backdrop-filter: blur(2px);
     }
 
@@ -393,7 +394,7 @@
 
     <!-- The Enchanted Rose In Glass Cloche (Interactive) -->
     <div id="enchantedRoseTrigger"
-      class="relative cursor-pointer group my-2 transform transition-all duration-500 hover:scale-105"
+      class="relative cursor-pointer group my-2 flex flex-col items-center transform transition-all duration-500 hover:scale-105"
       title="Nhấp vào bông hồng để mở khu vườn bí mật">
 
       <!-- Orbiting 3D Mini Hearts -->
@@ -406,15 +407,18 @@
           style="animation-delay: 2.2s;">💫</span>
       </div>
 
+      <!-- Crystal Cloche Handle Knob on Top -->
+      <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-white/70 via-pink-200/50 to-white/90 border border-white/80 shadow-[0_0_15px_rgba(255,255,255,0.8)] -mb-1 z-20 pointer-events-none"></div>
+
       <!-- Glass Dome Cloche -->
       <div id="glassDomeEl"
-        class="relative w-56 h-80 sm:w-64 sm:h-96 glass-dome flex flex-col items-center justify-end pb-8 overflow-hidden transition-all duration-700 shadow-2xl">
+        class="relative w-64 sm:w-72 h-[340px] sm:h-[380px] glass-dome flex flex-col items-center justify-end overflow-hidden transition-all duration-700 shadow-2xl">
 
         <!-- Light reflection on glass -->
         <div
-          class="absolute top-4 left-6 w-12 h-44 bg-gradient-to-b from-white/40 via-white/10 to-transparent rounded-full transform -rotate-12 pointer-events-none">
+          class="absolute top-4 left-5 w-12 h-64 bg-gradient-to-b from-white/35 via-white/10 to-transparent rounded-full transform -rotate-12 pointer-events-none">
         </div>
-        <div class="absolute top-2 right-6 w-4 h-32 bg-white/20 rounded-full pointer-events-none"></div>
+        <div class="absolute top-2 right-6 w-3.5 h-48 bg-white/20 rounded-full pointer-events-none"></div>
 
         <!-- Flying golden pollen inside dome -->
         <div class="absolute inset-0 pointer-events-none">
@@ -425,91 +429,85 @@
             style="animation-duration: 2.5s;"></div>
         </div>
 
-        <!-- Glowing Rose Artwork (SVG Art) -->
-        <div class="relative z-10 flex flex-col items-center">
-          <!-- Rose Bloom -->
-          <div class="relative filter drop-shadow-[0_0_20px_rgba(255,20,147,0.9)] animate-pulse-glow">
-            <svg class="w-24 h-24 sm:w-28 sm:h-28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Outer Petals -->
-              <path d="M50 15 C30 15, 20 35, 30 55 C40 70, 60 70, 70 55 C80 35, 70 15, 50 15 Z" fill="url(#roseGrad1)"
-                opacity="0.9" />
-              <path d="M25 40 C15 48, 20 65, 38 68 C42 62, 35 50, 25 40 Z" fill="url(#roseGrad2)" />
-              <path d="M75 40 C85 48, 80 65, 62 68 C58 62, 65 50, 75 40 Z" fill="url(#roseGrad2)" />
+        <!-- Unified Glowing Rose Artwork (SVG Art) -->
+        <div class="relative z-10 w-full h-full flex items-center justify-center filter drop-shadow-[0_0_22px_rgba(255,20,147,0.85)] animate-pulse-glow">
+          <svg class="w-56 h-[320px] sm:w-60 sm:h-[350px]" viewBox="0 0 240 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="rosePetalGrad1" x1="80" y1="70" x2="160" y2="140" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#ff758f" />
+                <stop offset="0.5" stop-color="#ff1493" />
+                <stop offset="1" stop-color="#800f2f" />
+              </linearGradient>
+              <linearGradient id="rosePetalGrad2" x1="90" y1="80" x2="150" y2="135" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#ff8fa3" />
+                <stop offset="0.6" stop-color="#c9184a" />
+                <stop offset="1" stop-color="#590d22" />
+              </linearGradient>
+              <linearGradient id="rosePetalGrad3" x1="100" y1="85" x2="140" y2="125" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#fff0f3" />
+                <stop offset="0.4" stop-color="#ff4d6d" />
+                <stop offset="1" stop-color="#a4133c" />
+              </linearGradient>
+            </defs>
 
-              <!-- Mid Petals -->
-              <path d="M35 30 C30 45, 45 62, 50 62 C55 62, 70 45, 65 30 C58 20, 42 20, 35 30 Z"
-                fill="url(#roseGrad3)" />
-              <path d="M40 32 C38 42, 48 52, 50 52 C52 52, 62 42, 60 32 C56 26, 44 26, 40 32 Z"
-                fill="url(#roseGrad1)" />
+            <!-- Rose Stem (Connects seamlessly from y=142 down to y=304) -->
+            <path d="M 120 142 Q 126 215 120 304" stroke="#1b4332" stroke-width="5" stroke-linecap="round" />
+            <path d="M 121 144 Q 127 215 121 302" stroke="#52b788" stroke-width="1.8" stroke-linecap="round" />
 
-              <!-- Inner Rose Spiral Heart -->
-              <path d="M45 35 C43 40, 48 45, 50 45 C52 45, 57 40, 55 35 C53 30, 47 30, 45 35 Z" fill="#fff0f3" />
+            <!-- Thorns -->
+            <path d="M 118 175 L 111 178 L 118 182 Z" fill="#1b4332" />
+            <path d="M 122 268 L 129 271 L 123 275 Z" fill="#1b4332" />
 
-              <!-- Gradients -->
-              <defs>
-                <linearGradient id="roseGrad1" x1="20" y1="15" x2="80" y2="70" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#ff758f" />
-                  <stop offset="0.5" stop-color="#ff1493" />
-                  <stop offset="1" stop-color="#a4133c" />
-                </linearGradient>
-                <linearGradient id="roseGrad2" x1="15" y1="40" x2="85" y2="68" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#ff4d6d" />
-                  <stop offset="1" stop-color="#590d22" />
-                </linearGradient>
-                <linearGradient id="roseGrad3" x1="30" y1="20" x2="70" y2="62" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#ff8fa3" />
-                  <stop offset="0.6" stop-color="#c9184a" />
-                  <stop offset="1" stop-color="#800f2f" />
-                </linearGradient>
-              </defs>
-            </svg>
+            <!-- Left Leaf with veins -->
+            <path d="M 121 202 C 92 192 82 222 121 216 Z" fill="#2d6a4f" />
+            <path d="M 121 204 C 98 196 90 220 121 215 Z" fill="#52b788" />
+            <path d="M 121 208 Q 98 205 88 209" stroke="#b7e4c7" stroke-width="1.2" stroke-linecap="round" />
 
-            <!-- Sparkle on Rose -->
-            <div class="absolute top-2 right-4 text-magicGold text-xs animate-ping">✨</div>
-          </div>
+            <!-- Right Leaf with veins -->
+            <path d="M 121 242 C 150 232 158 262 121 256 Z" fill="#2d6a4f" />
+            <path d="M 121 244 C 144 236 150 260 121 255 Z" fill="#52b788" />
+            <path d="M 121 248 Q 142 245 150 249" stroke="#b7e4c7" stroke-width="1.2" stroke-linecap="round" />
 
-          <!-- Rose Stem & Leaves -->
-          <div class="relative -mt-2 flex flex-col items-center">
-            <svg class="w-12 h-28" viewBox="0 0 40 100" fill="none">
-              <!-- Stem -->
-              <path d="M20 0 Q22 45 20 95" stroke="#2d6a4f" stroke-width="4.5" stroke-linecap="round" />
-              <path d="M21 0 Q23 45 21 95" stroke="#52b788" stroke-width="1.5" stroke-linecap="round" />
-              <!-- Left Leaf -->
-              <path d="M19 35 C5 30 2 50 19 45 Z" fill="#2d6a4f" />
-              <path d="M19 35 C9 34 8 46 19 45 Z" fill="#52b788" />
-              <!-- Right Leaf -->
-              <path d="M21 55 C35 50 38 70 21 65 Z" fill="#2d6a4f" />
-              <path d="M21 55 C31 54 32 66 21 65 Z" fill="#52b788" />
-              <!-- Thorns -->
-              <path d="M18 20 L13 22 L19 25 Z" fill="#1b4332" />
-              <path d="M22 68 L27 70 L21 73 Z" fill="#1b4332" />
-            </svg>
-          </div>
+            <!-- Calyx (Green Sepals embracing base of flower) -->
+            <path d="M 112 140 Q 98 142 94 133 Q 105 146 117 144 Z" fill="#2d6a4f" />
+            <path d="M 128 140 Q 142 142 146 133 Q 135 146 123 144 Z" fill="#2d6a4f" />
+            <path d="M 110 136 Q 120 148 130 136 Q 125 152 120 152 Q 115 152 110 136 Z" fill="#1b4332" />
 
-          <!-- Fallen Petals at Bottom of Dome -->
-          <div class="relative -mt-4 w-32 flex justify-center items-center gap-1.5 opacity-90">
-            <span
-              class="inline-block w-4 h-3 rounded-full bg-gradient-to-r from-rosePrimary to-wine rotate-45 transform shadow-sm"></span>
-            <span
-              class="inline-block w-5 h-3.5 rounded-full bg-gradient-to-r from-pink-400 to-rosePrimary -rotate-12 transform shadow-sm"></span>
-            <span
-              class="inline-block w-3.5 h-2.5 rounded-full bg-gradient-to-r from-rosePrimary to-deepRuby rotate-30 transform shadow-sm"></span>
-          </div>
+            <!-- Rose Blossom Outer Petals -->
+            <path d="M 120 68 C 80 68, 65 98, 80 124 C 92 142, 112 144, 120 144 C 128 144, 148 142, 160 124 C 175 98, 160 68, 120 68 Z" fill="url(#rosePetalGrad1)" />
+            <path d="M 78 100 C 65 112 72 132 94 136 C 104 132 92 114 78 100 Z" fill="url(#rosePetalGrad2)" />
+            <path d="M 162 100 C 175 112 168 132 146 136 C 136 132 148 114 162 100 Z" fill="url(#rosePetalGrad2)" />
 
-        </div>
+            <!-- Mid Layer Petals -->
+            <path d="M 94 88 C 88 106 108 130 120 130 C 132 130 152 106 146 88 C 136 74 104 74 94 88 Z" fill="url(#rosePetalGrad2)" />
+            <path d="M 102 92 C 98 108 116 122 120 122 C 124 122, 142 108, 138 92 C 132 80, 108 80, 102 92 Z" fill="url(#rosePetalGrad1)" />
 
-        <!-- Pedestal / Base of Cloche -->
-        <div
-          class="absolute bottom-0 w-44 sm:w-48 h-6 bg-gradient-to-r from-[#2c1810] via-[#5c3a21] to-[#2c1810] rounded-t-lg border-t-2 border-magicGold/50 shadow-2xl flex items-center justify-center">
-          <div class="w-36 h-1 bg-gradient-to-r from-transparent via-magicGold/70 to-transparent"></div>
+            <!-- Inner Heart Swirl -->
+            <path d="M 108 94 C 104 104 116 114 120 114 C 124 114 136 104 132 94 C 128 85, 112 85, 108 94 Z" fill="url(#rosePetalGrad3)" />
+            <path d="M 114 98 C 112 104 118 108 120 108 C 122 108 128 104 126 98 C 124 92, 116 92, 114 98 Z" fill="#ffffff" />
+
+            <!-- Sparkle on Blossom -->
+            <text x="145" y="78" font-size="14" fill="#ffd166">✨</text>
+            <text x="75" y="110" font-size="10" fill="#ffffff">✦</text>
+
+            <!-- Fallen Petals at Bottom of Stem (Lying on wooden floor) -->
+            <ellipse cx="88" cy="302" rx="14" ry="5.5" transform="rotate(-15 88 302)" fill="url(#rosePetalGrad1)" opacity="0.95" />
+            <ellipse cx="148" cy="303" rx="16" ry="6" transform="rotate(20 148 303)" fill="url(#rosePetalGrad2)" opacity="0.95" />
+            <ellipse cx="118" cy="306" rx="12" ry="5" transform="rotate(5 118 306)" fill="url(#rosePetalGrad1)" opacity="0.9" />
+          </svg>
         </div>
 
       </div>
 
-      <!-- Pedestal Stand Base -->
-      <div
-        class="w-64 sm:w-72 h-6 mx-auto -mt-1 bg-gradient-to-r from-[#1f1008] via-[#4a2e1b] to-[#1f1008] rounded-b-xl border-b-2 border-amber-900/60 shadow-2xl flex items-center justify-center">
-        <span class="text-[9px] uppercase tracking-widest text-magicGold/80 font-bold">20.10 • Eternal Love</span>
+      <!-- Wooden Cloche Base Structure (Directly under dome) -->
+      <!-- Tier 1: Cloche Rim Base matching dome width -->
+      <div class="w-64 sm:w-72 h-4 bg-gradient-to-r from-[#24120a] via-[#4d2f19] to-[#24120a] border-t border-magicGold/70 shadow-md flex items-center justify-center">
+        <div class="w-48 h-0.5 bg-magicGold/40"></div>
+      </div>
+
+      <!-- Tier 2: Pedestal Stand Base -->
+      <div class="w-72 sm:w-80 h-7 bg-gradient-to-r from-[#170a05] via-[#3a2011] to-[#170a05] rounded-b-2xl border-b-2 border-amber-900/80 shadow-[0_15px_30px_rgba(0,0,0,0.6)] flex items-center justify-center">
+        <span class="text-[10px] uppercase tracking-widest text-magicGold font-bold drop-shadow">20.10 • Eternal Love</span>
       </div>
     </div>
 
