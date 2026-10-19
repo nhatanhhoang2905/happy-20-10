@@ -335,7 +335,7 @@
             <i data-lucide="music" class="w-3 h-3 text-pink-300"></i>
             <span id="musicStatusText">Nhạc: Đang phát</span>
           </p>
-          <p class="text-[10px] text-pink-300/80">Romantic Music Box</p>
+          <p class="text-[10px] text-pink-300/80">Love Story - Taylor Swift</p>
         </div>
       </button>
 
@@ -349,8 +349,7 @@
           <span>Tải file MP3 của riêng bạn</span>
           <input type="file" id="customAudioInput" accept="audio/*" class="hidden">
         </label>
-        <p class="text-[10px] text-pink-300/60 mt-1.5 italic">*Mặc định sử dụng giai điệu Piano/Music Box tổng hợp bằng
-          Web Audio</p>
+        <p class="text-[10px] text-pink-300/60 mt-1.5 italic">*Mặc định phát bài hát Love Story - Taylor Swift</p>
       </div>
     </div>
 
@@ -1122,33 +1121,50 @@
     lucide.createIcons();
 
     /* =========================================================
-     * 1. ROMANTIC MUSIC BOX & WEB AUDIO SYNTHESIZER ENGINE
+     * 1. ROMANTIC MUSIC PLAYER: LOVE STORY (TAYLOR SWIFT)
      * ========================================================= */
     let audioCtx = null;
     let isPlaying = false;
     let musicInterval = null;
     let noteIndex = 0;
-    let customAudioElement = null;
 
-    // Romantic Melody Frequencies (Canon in D / River Flows in You inspired romantic notes)
-    // C4, D4, E4, F4, G4, A4, B4, C5, D5, E5, F5, G5, A5
+    // Main Audio Element with local Love Story MP3 & CDN fallback
+    const mainAudio = new Audio('love-story.mp3');
+    mainAudio.loop = true;
+    mainAudio.volume = 0.8;
+
+    mainAudio.addEventListener('error', () => {
+      console.warn('Local love-story.mp3 failed to load, falling back to CDN...');
+      mainAudio.src = 'https://raw.githubusercontent.com/KunalVaidya99/Music-Genre-Classification/master/Taylor%20Swift-Love%20Story.mp3';
+      mainAudio.load();
+    });
+
+    // Love Story Melody Frequencies for Celestial Music Box Synth Fallback
     const NOTES = {
-      C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.00, A4: 440.00, B4: 493.88,
-      C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99, A5: 880.00, B5: 987.77,
-      C6: 1046.50
+      G4: 392.00, A4: 440.00, B4: 493.88, C5: 523.25, D5: 587.33, E5: 659.25, Fs5: 739.99, G5: 783.99, A5: 880.00
     };
 
-    // Melody sequence with durations (note, duration in ms)
+    // "Love Story" Chorus: "Romeo, take me somewhere we can be alone..."
     const romanticMelody = [
-      { note: NOTES.E5, dur: 350 }, { note: NOTES.D5, dur: 350 }, { note: NOTES.C5, dur: 350 }, { note: NOTES.G4, dur: 350 },
-      { note: NOTES.A4, dur: 350 }, { note: NOTES.C5, dur: 350 }, { note: NOTES.E5, dur: 700 },
-      { note: NOTES.D5, dur: 350 }, { note: NOTES.C5, dur: 350 }, { note: NOTES.B4, dur: 350 }, { note: NOTES.G4, dur: 350 },
-      { note: NOTES.C5, dur: 350 }, { note: NOTES.E5, dur: 350 }, { note: NOTES.G5, dur: 700 },
-      { note: NOTES.A5, dur: 350 }, { note: NOTES.G5, dur: 350 }, { note: NOTES.E5, dur: 350 }, { note: NOTES.C5, dur: 350 },
-      { note: NOTES.F5, dur: 350 }, { note: NOTES.E5, dur: 350 }, { note: NOTES.D5, dur: 700 },
-      { note: NOTES.C5, dur: 350 }, { note: NOTES.D5, dur: 350 }, { note: NOTES.E5, dur: 350 }, { note: NOTES.G5, dur: 350 },
-      { note: NOTES.A5, dur: 700 }, { note: NOTES.G5, dur: 700 },
-      { note: NOTES.E5, dur: 500 }, { note: NOTES.D5, dur: 500 }, { note: NOTES.C5, dur: 1000 }
+      // Ro-me-o take me some-where we can be a-lone
+      { note: NOTES.D5, dur: 360 }, { note: NOTES.C5, dur: 360 }, { note: NOTES.B4, dur: 360 }, { note: NOTES.A4, dur: 360 },
+      { note: NOTES.G4, dur: 360 }, { note: NOTES.A4, dur: 360 }, { note: NOTES.B4, dur: 500 }, { note: NOTES.C5, dur: 360 },
+      { note: NOTES.B4, dur: 360 }, { note: NOTES.A4, dur: 360 }, { note: NOTES.G4, dur: 700 },
+
+      // I'll be wai-ting, all that's left to do is run
+      { note: NOTES.A4, dur: 360 }, { note: NOTES.B4, dur: 360 }, { note: NOTES.C5, dur: 360 }, { note: NOTES.C5, dur: 360 },
+      { note: NOTES.B4, dur: 360 }, { note: NOTES.A4, dur: 360 }, { note: NOTES.G4, dur: 360 }, { note: NOTES.A4, dur: 360 },
+      { note: NOTES.B4, dur: 500 }, { note: NOTES.G4, dur: 700 },
+
+      // You'll be the prince and I'll be the prin-cess
+      { note: NOTES.G4, dur: 360 }, { note: NOTES.A4, dur: 360 }, { note: NOTES.B4, dur: 360 }, { note: NOTES.C5, dur: 360 },
+      { note: NOTES.C5, dur: 360 }, { note: NOTES.B4, dur: 360 }, { note: NOTES.A4, dur: 360 }, { note: NOTES.G4, dur: 360 },
+      { note: NOTES.A4, dur: 700 },
+
+      // It's a love sto-ry, ba-by, just say "Yes"
+      { note: NOTES.G4, dur: 360 }, { note: NOTES.A4, dur: 360 }, { note: NOTES.B4, dur: 360 }, { note: NOTES.C5, dur: 360 },
+      { note: NOTES.B4, dur: 360 }, { note: NOTES.A4, dur: 360 }, { note: NOTES.G4, dur: 360 }, { note: NOTES.A4, dur: 500 },
+      { note: NOTES.G4, dur: 1200 }
     ];
 
     function initAudioContext() {
@@ -1170,7 +1186,7 @@
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
 
-        // Music box uses clean sine wave + subtle harmonic triangle
+        // Music box uses clean sine wave + subtle harmonic
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
@@ -1189,7 +1205,7 @@
       }
     }
 
-    // Gentle chord background accompaniment
+    // Gentle chord background accompaniment for Love Story
     function playArpeggioStep() {
       if (!isPlaying || !audioCtx) return;
       const step = romanticMelody[noteIndex];
@@ -1214,8 +1230,15 @@
       if (vinyl) vinyl.classList.add('animate-spin-slow');
       if (statusText) statusText.textContent = 'Nhạc: Đang phát';
 
-      if (customAudioElement && customAudioElement.src) {
-        customAudioElement.play().catch(e => console.log('Autoplay handled', e));
+      // Attempt playing real MP3 audio first
+      if (mainAudio) {
+        mainAudio.play().then(() => {
+          clearTimeout(musicInterval);
+        }).catch(err => {
+          console.log('Autoplay restriction or audio play error, using synth music box:', err);
+          clearTimeout(musicInterval);
+          playArpeggioStep();
+        });
       } else {
         clearTimeout(musicInterval);
         playArpeggioStep();
@@ -1225,8 +1248,8 @@
     function stopMusic() {
       isPlaying = false;
       clearTimeout(musicInterval);
-      if (customAudioElement) {
-        customAudioElement.pause();
+      if (mainAudio) {
+        mainAudio.pause();
       }
       const vinyl = document.getElementById('vinylDisc');
       const statusText = document.getElementById('musicStatusText');
@@ -1249,11 +1272,7 @@
       const file = e.target.files[0];
       if (file) {
         clearTimeout(musicInterval);
-        if (!customAudioElement) {
-          customAudioElement = new Audio();
-          customAudioElement.loop = true;
-        }
-        customAudioElement.src = URL.createObjectURL(file);
+        mainAudio.src = URL.createObjectURL(file);
         startMusic();
         const statusText = document.getElementById('musicStatusText');
         if (statusText) statusText.textContent = 'Nhạc: ' + file.name.substring(0, 10) + '...';
