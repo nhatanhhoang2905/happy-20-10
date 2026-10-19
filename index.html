@@ -1723,50 +1723,54 @@
     let autoRotateInterval = null;
     let activeEditPhotoIndex = 0;
 
-    // Default romantic artistic photos (SVGs & vibrant memory placeholders)
+    // Default romantic artistic photos with real photos from directory
     const DEFAULT_MEMORIES = [
       {
-        caption: "Nụ cười rạng rỡ của em",
-        bg: "linear-gradient(135deg, #ff4d6d, #800f2f)",
-        icon: "🥰",
-        title: "Kỷ Niệm 01"
+        customImage: "08_11_2024.jpg",
+        caption: "08/11/2024 • Ngày ngọt ngào bên em",
+        title: "08.11.2024"
       },
       {
-        caption: "Buổi hẹn hò đầu tiên",
-        bg: "linear-gradient(135deg, #a4133c, #590d22)",
-        icon: "☕",
-        title: "Kỷ Niệm 02"
+        customImage: "14_02_2025.jpg",
+        caption: "14/02/2025 • Valentine lãng mạn",
+        title: "14.02.2025"
       },
       {
-        caption: "Dưới ánh hoàng hôn lãng mạn",
-        bg: "linear-gradient(135deg, #ff758f, #c9184a)",
-        icon: "🌅",
-        title: "Kỷ Niệm 03"
+        customImage: "22_04_2025.jpg",
+        caption: "22/04/2025 • Khoảnh khắc hạnh phúc",
+        title: "22.04.2025"
       },
       {
-        caption: "Cùng em đi khắp thế gian",
-        bg: "linear-gradient(135deg, #e0aaff, #7b2cbf)",
-        icon: "✈️",
-        title: "Kỷ Niệm 04"
+        customImage: "21_08_2025.jpg",
+        caption: "21/08/2025 • Đong đầy yêu thương",
+        title: "21.08.2025"
       },
       {
-        caption: "Cái ôm ấm áp mùa đông",
-        bg: "linear-gradient(135deg, #ff8fa3, #590d22)",
-        icon: "🧣",
-        title: "Kỷ Niệm 05"
+        customImage: "02_09_2025.jpg",
+        caption: "02/09/2025 • Cùng em đi muôn nơi",
+        title: "02.09.2025"
       },
       {
-        caption: "Mãi mãi bên nhau trọn đời",
-        bg: "linear-gradient(135deg, #ffccd5, #ff4d6d)",
-        icon: "💍",
-        title: "Kỷ Niệm 06"
+        customImage: "20_10_2025.jpg",
+        caption: "20/10/2025 • Công chúa Hải Yến",
+        title: "20.10.2025"
+      },
+      {
+        customImage: "31_12_2025.jpg",
+        caption: "31/12/2025 • Đón năm mới bên nhau",
+        title: "31.12.2025"
+      },
+      {
+        customImage: "26_09_2026.jpg",
+        caption: "26/09/2026 • Mãi mãi một tình yêu",
+        title: "26.09.2026"
       }
     ];
 
     // Load saved photos from LocalStorage
     function getSavedMemories() {
       try {
-        const data = localStorage.getItem('romantic_memories_2010');
+        const data = localStorage.getItem('romantic_memories_2010_v2');
         if (data) return JSON.parse(data);
       } catch (e) {
         console.warn('Storage error', e);
@@ -1776,7 +1780,7 @@
 
     function saveMemories(memories) {
       try {
-        localStorage.setItem('romantic_memories_2010', JSON.stringify(memories));
+        localStorage.setItem('romantic_memories_2010_v2', JSON.stringify(memories));
       } catch (e) {
         console.warn('Cannot save to localStorage', e);
       }
@@ -1788,24 +1792,24 @@
       if (!carousel3DContainer) return;
       carousel3DContainer.innerHTML = '';
 
-      const count = 6;
-      const radius = window.innerWidth > 640 ? 320 : 220; // 3D radius distance
+      const count = memoriesData.length;
+      const radius = window.innerWidth > 640 ? 380 : 270; // 3D radius distance
 
       memoriesData.forEach((item, index) => {
         const angle = (index * 360) / count;
         const card = document.createElement('div');
-        card.className = 'carousel-3d-card w-44 sm:w-56 h-60 sm:h-72 glass-card rounded-2xl p-2 sm:p-2.5 flex flex-col justify-between cursor-pointer border border-pink-300/40 hover:border-magicGold transition-transform duration-300 group';
+        card.className = 'carousel-3d-card w-44 sm:w-56 h-60 sm:h-72 glass-card rounded-2xl p-2 sm:p-2.5 flex flex-col justify-between cursor-pointer border border-pink-300/40 hover:border-magicGold transition-transform duration-300 group shadow-xl';
 
         // 3D placement transform
         card.style.transform = `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${radius}px)`;
 
         // Image / Visual Content
         const imageContent = item.customImage
-          ? `<img src="${item.customImage}" class="w-full h-full object-cover rounded-xl" alt="Kỷ niệm">`
+          ? `<img src="${item.customImage}" class="w-full h-full object-cover rounded-xl" alt="Kỷ niệm" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'w-full h-full flex items-center justify-center text-4xl\\'>💖</div>';">`
           : `
-            <div class="w-full h-full rounded-xl flex flex-col items-center justify-center p-3 text-center text-white relative overflow-hidden" style="background: ${item.bg};">
-              <span class="text-4xl sm:text-5xl mb-2 transform group-hover:scale-125 transition duration-300">${item.icon}</span>
-              <p class="font-dancing text-lg sm:text-xl font-bold">${item.title}</p>
+            <div class="w-full h-full rounded-xl flex flex-col items-center justify-center p-3 text-center text-white relative overflow-hidden" style="background: ${item.bg || 'linear-gradient(135deg, #ff4d6d, #800f2f)'};">
+              <span class="text-4xl sm:text-5xl mb-2 transform group-hover:scale-125 transition duration-300">${item.icon || '🌸'}</span>
+              <p class="font-dancing text-lg sm:text-xl font-bold">${item.title || 'Kỷ Niệm'}</p>
               <span class="text-[10px] text-pink-200 mt-1 opacity-80">(Chạm để thay ảnh thật)</span>
             </div>
           `;
@@ -1855,7 +1859,8 @@
     }
 
     function rotateCarousel(dir) {
-      currentAngle += dir * 60;
+      const step = 360 / (memoriesData.length || 8);
+      currentAngle += dir * step;
       updateCarouselTransform();
     }
 
